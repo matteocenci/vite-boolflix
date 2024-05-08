@@ -1,30 +1,59 @@
 <script>
+
+
 import axios from "axios";
 import {store} from "./store";
+import AppHeader from "./components/AppHeader.vue";
+import AppMain from "./components/AppMain.vue";
+
+
+
+
 export default {
+  components: {
+    AppHeader,
+    AppMain
+  },
+
   data() {
     return{
       store,
     };
   },
   created () {
-    axios.get(" https://api.themoviedb.org/3/search/tv?api_key=b2ead90c1236f96f4b0e9528732a8bfc", {
-      params: {
+    
+  },
+  methods: {
+
+    getFilms() {
+      const paramsobj = {
         api_key: this.store.apiKey,
-        query: "Ciao"
-        
-        
-      },
+        query: this.store.searchQuery,
+      }
+      axios.get(" https://api.themoviedb.org/3/search/tv", {
+      params: paramsobj
     })
     .then((resp) => {
-      console.log(resp);
+      
+      this.store.tvArray = resp.data.results;
     });
+    axios.get(" https://api.themoviedb.org/3/search/movie", {
+      params: paramsobj
+    })
+    .then((resp) => {
+      
+      this.store.moviesArray = resp.data.results;
+      console.log(this.store.moviesArray);
+    });
+    }
   }
 }
 
 </script>
 
 <template>
+  <AppHeader @search = "getFilms"/>
+  <AppMain/>
 
 </template>
 
