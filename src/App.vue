@@ -57,7 +57,10 @@ export default {
 
 </template>
 
-<style>
+<style scoped>
+* {
+  background-color: lightgray;
+}
 
 
 </style>
