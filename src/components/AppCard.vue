@@ -11,7 +11,7 @@ export default {
         cardsObj: Object
     },
     computed: {
-        title() {
+        originalTitle() {
             if (this.cardsObj.original_name) {
                 return this.cardsObj.original_name
 
@@ -22,6 +22,16 @@ export default {
         valutation() {
             const vote = Math.round(this.cardsObj.vote_average / 2);
             return vote
+        },
+        Title() {
+            if (this.cardsObj.name) {
+                return this.cardsObj.name
+            } else {
+                return this.cardsObj.title
+            }
+        },
+        Description() {
+            return this.cardsObj.overview
         }
 
     },
@@ -53,8 +63,12 @@ export default {
         </div>
         <div class="backcard">
             <img :src="getImage(cardsObj.original_language)" alt="">
-            <p>{{ title }}</p>
+            <div class="title"><strong>Title:</strong> {{ Title }}</div>
+            <div class="ori-title"><strong>Original Title:</strong> {{ originalTitle }}</div>
             <div class="containerdescr">
+                <div class="descr">
+                    <strong>Overview:</strong> {{ Description }}
+                </div>
                 
             </div>
             <div class="vote">
@@ -80,8 +94,6 @@ export default {
     position: relative;
     width: 100%;
     height: 100%;
-    
-
     .cardfront {
         transition: 2s;
         transform-style: preserve-3d;
@@ -105,6 +117,23 @@ export default {
         left: 0;
         width: 100%;
         height: 100%;
+
+        img {
+            width: 20%;
+            height: 10%;
+            margin: 5px;
+        }
+
+        .containerdescr {
+            
+            .descr {
+                display: -webkit-box; 
+                -webkit-box-orient: vertical; 
+                -webkit-line-clamp: 4; 
+                overflow: hidden; 
+                text-overflow: ellipsis; 
+            }
+        }
         
         opacity: 0;
         .vote{
